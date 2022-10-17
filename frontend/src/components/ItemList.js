@@ -5,8 +5,15 @@ import {
   EllipsisOutlined,
   SettingOutlined,
 } from '@ant-design/icons';
+
+import { useDispatch } from 'react-redux';
 const { Meta } = Card;
 const ItemList = ({ item }) => {
+  const dispatch = useDispatch();
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    dispatch({ type: 'ADD_TO_CART', payload: { ...item, quantity: 1 } });
+  };
   return (
     <div>
       <Card
@@ -26,7 +33,7 @@ const ItemList = ({ item }) => {
       >
         <Meta title={item.name} />
         <div className="item-button">
-          <Button>Add to Cart</Button>
+          <Button onClick={handleAddToCart}>Add to Cart</Button>
         </div>
       </Card>
     </div>

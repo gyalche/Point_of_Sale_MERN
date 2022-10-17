@@ -3,12 +3,7 @@ import DefaultLayout from '../components/DefaultLayout';
 import axios from 'axios';
 
 const ItemPage = () => {
- 
-  return (
-    <DefaultLayout>
-     I am item
-    </DefaultLayout>
-  );
+  return <DefaultLayout>I am item</DefaultLayout>;
 };
 
 export default ItemPage;

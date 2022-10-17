@@ -9,16 +9,22 @@ import {
   ShoppingCartOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/DefaultLayout.css';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 const { Header, Sider, Content } = Layout;
 
 const DefaultLayout = ({ children }) => {
   const { cartItems } = useSelector((state) => state.rootReducer);
   const [collapsed, setCollapsed] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  //to get localstorage data;
+  useEffect(() => {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  }, [cartItems]);
 
   return (
     <Layout>
@@ -56,8 +62,12 @@ const DefaultLayout = ({ children }) => {
               onClick: () => setCollapsed(!collapsed),
             }
           )}
-          <div className="cart-item">
-            <p>{cartItems.lenght ? cartItems.length : 0}</p>
+          <div
+            className="cart-item"
+            onClick={() => {
+              navigate('/cart');
+            }}>
+            <p>{cartItems.length}</p>
             <ShoppingCartOutlined />
           </div>
         </Header>
