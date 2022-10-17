@@ -9,3 +9,14 @@ body {
   background-color: rgb(65, 84, 65);
   color: white;
 }
+.spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.spinner-border {
+  height: 100px;
+  width: 100px;
+  z-index: 100;
+}

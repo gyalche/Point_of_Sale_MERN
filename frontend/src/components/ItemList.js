@@ -24,13 +24,7 @@ const ItemList = ({ item }) => {
             src={item.image}
             style={{ height: 200, objectFit: 'cover' }}
           />
-        }
-        // actions={[
-        //   <SettingOutlined key="setting" />,
-        //   <EditOutlined key="edit" />,
-        //   <EllipsisOutlined key="ellipsis" />,
-        // ]}
-      >
+        }>
         <Meta title={item.name} />
         <div className="item-button">
           <Button onClick={handleAddToCart}>Add to Cart</Button>

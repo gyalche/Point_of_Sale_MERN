@@ -13,11 +13,12 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/DefaultLayout.css';
 import { useSelector, useDispatch } from 'react-redux';
+import Spinner from './Spinner';
 
 const { Header, Sider, Content } = Layout;
 
 const DefaultLayout = ({ children }) => {
-  const { cartItems } = useSelector((state) => state.rootReducer);
+  const { cartItems, loading } = useSelector((state) => state.rootReducer);
   const [collapsed, setCollapsed] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ const DefaultLayout = ({ children }) => {
 
   return (
     <Layout>
+      {loading && <Spinner />}
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo">
           <h1 className="text-center text-light font-weight-bold mt-4">POS</h1>

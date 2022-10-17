@@ -5,6 +5,11 @@ const initialState = {
 
 export const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'SHOW_LOADING':
+      return { ...state, loading: true };
+
+    case 'HIDE_LOADING':
+      return { ...state, loading: false };
     case 'ADD_TO_CART':
       return { ...state, cartItems: [...state.cartItems, action.payload] };
 
