@@ -6,7 +6,7 @@ import {
   PlusCircleOutlined,
   MinusCircleOutlined,
 } from '@ant-design/icons';
-import { Table } from 'antd';
+import { Button, Table } from 'antd';
 const CartPage = () => {
   const { cartItems } = useSelector((state) => state.rootReducer);
   const dispatch = useDispatch();

@@ -20,7 +20,7 @@ const HomePage = () => {
       }
     };
     getAllItems();
-  }, []);
+  }, [dispatch]);
   return (
     <>
       <DefaultLayout>
