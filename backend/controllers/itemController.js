@@ -15,7 +15,7 @@ export const addItemController = async (req, res) => {
     await newItem.save();
     res.status(201).send('Item created sucessfully');
   } catch (error) {
-    res.status(400).send('error', error);
+    res.status(400).json('error', error);
     proccess.exit(1);
   }
 };
