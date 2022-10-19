@@ -1,11 +1,23 @@
-import { Select } from 'antd';
+import { message, Select } from 'antd';
 import { Button } from 'antd';
 import React from 'react';
 import { Form, Input } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+
 const Register = () => {
-  const handleSubmit = (value) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleSubmit = async (value) => {
     console.log(value);
+    try {
+      const res = await axios.post('/api/users/register', value);
+      message.success('Sucessfully Registered ', res.name);
+      navigate('/login');
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>

@@ -19,8 +19,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //routes;
 import itemRoutes from './routes/itemRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 app.use('/api/items', itemRoutes);
-
+app.use('/api/users', userRoutes);
 //PORT;
 const PORT = process.env.PORT || 3000;
 

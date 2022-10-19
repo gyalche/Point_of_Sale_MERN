@@ -1,12 +1,24 @@
 import React from 'react';
-import { Form } from 'antd';
+import { Form, message } from 'antd';
 import Input from 'antd/lib/input/Input';
 import { Button } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Login = () => {
-  const handleSubmit = (value) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (value) => {
     console.log(value);
+    console.log(value);
+    try {
+      const res = await axios.post('/api/users/login', value);
+      message.success('Sucessfully LOGGED IN ');
+      localStorage.setItem('Auth', JSON.stringify(res.data));
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
