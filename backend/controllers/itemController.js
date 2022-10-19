@@ -35,7 +35,7 @@ export const deleteItemController = async (req, res) => {
   try {
     const { itemId } = req.body;
     await itemModel.findByIdAndDelete(itemId);
-    res.staus('Item delted Sucessfully');
+    res.status('Item delted Sucessfully');
   } catch (error) {
     console.log(error);
   }

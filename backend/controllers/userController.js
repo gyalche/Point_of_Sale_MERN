@@ -3,7 +3,7 @@ import userModel from '../models/userModel.js';
 export const loginController = async (req, res) => {
   try {
     const { userId, password } = req.body;
-    const user = await userModel.findOne({ userId, password, verified: true });
+    const user = await userModel.findOne({ userId, password });
     if (user) {
       res.status(200).send(user);
     } else {

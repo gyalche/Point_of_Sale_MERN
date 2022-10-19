@@ -20,8 +20,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //routes;
 import itemRoutes from './routes/itemRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import billsRoutes from './routes/billsRoute.js';
 app.use('/api/items', itemRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/bills', billsRoutes);
+
 //PORT;
 const PORT = process.env.PORT || 3000;
 

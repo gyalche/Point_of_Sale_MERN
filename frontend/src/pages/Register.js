@@ -1,6 +1,6 @@
 import { message, Select } from 'antd';
 import { Button } from 'antd';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, Input } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -9,6 +9,12 @@ import { useDispatch } from 'react-redux';
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem('Auth')) {
+      navigate('/');
+    }
+  }, [navigate]);
   const handleSubmit = async (value) => {
     console.log(value);
     try {

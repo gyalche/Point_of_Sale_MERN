@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, message } from 'antd';
 import Input from 'antd/lib/input/Input';
 import { Button } from 'antd';
@@ -7,6 +7,13 @@ import axios from 'axios';
 
 const Login = () => {
   const navigate = useNavigate();
+
+  //get currently logged in user;
+  useEffect(() => {
+    if (localStorage.getItem('Auth')) {
+      navigate('/');
+    }
+  }, [navigate]);
 
   const handleSubmit = async (value) => {
     console.log(value);
