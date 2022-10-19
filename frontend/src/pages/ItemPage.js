@@ -14,6 +14,8 @@ const ItemPage = () => {
   const dispatch = useDispatch();
   const [itemsData, setItemsData] = useState([]);
   const [popModal, setPopModal] = useState(false);
+  const [editItem, setEditItem] = useState(null);
+
   const getAllItems = async () => {
     try {
       dispatch({ type: 'SHOW_LOADING' });
@@ -50,8 +52,17 @@ const ItemPage = () => {
       dataIndex: '_id',
       render: (id, record) => (
         <div>
-          <DeleteOutlined style={{ cursor: 'pointer' }} />
-          <EditOutlined style={{ cursor: 'pointer' }} />
+          <DeleteOutlined
+            style={{ cursor: 'pointer' }}
+            onClick={deleteItemHandler(record)}
+          />
+          <EditOutlined
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              setEditItem(record);
+              setPopModal(true);
+            }}
+          />
         </div>
       ),
     },
@@ -63,17 +74,41 @@ const ItemPage = () => {
 
   //form submit;
   const handleSubmit = async (value) => {
-    console.log(value);
+    if (editItem === null) {
+      try {
+        dispatch({ type: 'SHOW_LOADING' });
+        const res = await axios.post('/api/items/add-item', value);
+        message.success('Item Added Successfully!');
+        getAllItems();
+        setPopModal(false);
+        dispatch({ type: 'HIDE_LOADING' });
+      } catch (error) {
+        message.error('Something wennt wrong');
+        console.log(error);
+      }
+    } else {
+      try {
+        dispatch({ type: 'SHOW_LOADING' });
+        await axios.put('/api/items/edit-item', {
+          ...value,
+          itemId: editItem._id,
+        });
+        message.success('Item Updated Successfully!');
+        getAllItems();
+        setPopModal(false);
+        dispatch({ type: 'HIDE_LOADING' });
+      } catch (error) {
+        message.error('Something wennt wrong');
+        console.log(error);
+      }
+    }
+  };
+  const deleteItemHandler = async (record) => {
     try {
-      dispatch({ type: 'SHOW_LOADING' });
-      const res = await axios.post('/api/items/add-item', value);
-      message.success('Item Added Successfully!');
-      getAllItems();
-      setPopModal(false);
-      dispatch({ type: 'HIDE_LOADING' });
+      await axios.delete('/api/items/delete-item', { itemId: record._id });
     } catch (error) {
-      message.error('Something wennt wrong');
       console.log(error);
+      dispatch({ type: 'HIDE_LOADING' });
     }
   };
   return (
@@ -85,36 +120,44 @@ const ItemPage = () => {
         </Button>
       </div>
       <Table columns={columns} dataSource={itemsData} bordered />;
-      <Modal
-        title="Basic Modal"
-        open={popModal}
-        onCancel={() => setPopModal(false)}
-        footer={false}>
-        <Form layout="vertical" onFinish={handleSubmit}>
-          <Form.Item name="name" label="Name">
-            <input style={{ width: '100%', outline: 'none' }} />
-          </Form.Item>
-          <Form.Item name="price" label="Price">
-            <input style={{ width: '100%', outline: 'none' }} />
-          </Form.Item>
-          <Form.Item name="image" label="Image URL">
-            <input style={{ width: '100%', outline: 'none' }} />
-          </Form.Item>
-          <Form.Item name="category">
-            <Select>
-              <Select.Option value="drinks">Drinks</Select.Option>
-              <Select.Option value="rice">Rice</Select.Option>
-              <Select.Option value="noodles">Noodels</Select.Option>
-            </Select>
-          </Form.Item>
+      {popModal && (
+        <Modal
+          title={`${editItem !== null ? 'Edit Item' : 'Add New Item'}`}
+          open={popModal}
+          onCancel={() => {
+            setEditItem(null);
+            setPopModal(false);
+          }}
+          footer={false}>
+          <Form
+            layout="vertical"
+            onFinish={handleSubmit}
+            initialValues={editItem}>
+            <Form.Item name="name" label="Name">
+              <input style={{ width: '100%', outline: 'none' }} />
+            </Form.Item>
+            <Form.Item name="price" label="Price">
+              <input style={{ width: '100%', outline: 'none' }} />
+            </Form.Item>
+            <Form.Item name="image" label="Image URL">
+              <input style={{ width: '100%', outline: 'none' }} />
+            </Form.Item>
+            <Form.Item name="category" label="Category">
+              <Select>
+                <Select.Option value="drinks">Drinks</Select.Option>
+                <Select.Option value="rice">Rice</Select.Option>
+                <Select.Option value="noodles">Noodels</Select.Option>
+              </Select>
+            </Form.Item>
 
-          <div className="d-flex justify-content-end">
-            <Button type="primary" htmlType="submit">
-              SAVE
-            </Button>
-          </div>
-        </Form>
-      </Modal>
+            <div className="d-flex justify-content-end">
+              <Button type="primary" htmlType="submit">
+                SAVE
+              </Button>
+            </div>
+          </Form>
+        </Modal>
+      )}
     </DefaultLayout>
   );
 };
